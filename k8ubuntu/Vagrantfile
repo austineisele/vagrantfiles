@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "master" do |master|
   config.vm.provision "shell", inline: <<-SHELL
     echo 'master setting up'
+    cd ~
     git clone https://github.com/austineisele/kubeadm_scripts.git
     cd ~/kubeadm_scripts/Scripts/ubuntu
     chmod +x all_nodes.sh
@@ -29,6 +30,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "node0#{i}" do |node|
   config.vm.provision "shell", inline: <<-SHELL
     echo 'nodes setting up'
+    cd ~
     git clone https://github.com/austineisele/kubeadm_scripts.git
     cd ~/kubeadm_scripts/Scripts/ubuntu
     chmod +x all_nodes.sh
