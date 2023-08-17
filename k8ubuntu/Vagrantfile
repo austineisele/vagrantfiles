@@ -4,16 +4,17 @@ Vagrant.configure("2") do |config|
       echo "10.0.0.10  master-node" >> /etc/hosts
       echo "10.0.0.11  worker-node01" >> /etc/hosts
       echo "10.0.0.12  worker-node02" >> /etc/hosts
+      cd ~
+      git clone https://github.com/austineisele/kubeadm_scripts.git
+      cd ~/kubeadm_scripts/Scripts/ubuntu
+      chmod +x all_nodes.sh
+      chmod +x master_node.sh 
   SHELL
   
   config.vm.define "master" do |master|
   config.vm.provision "shell", inline: <<-SHELL
     echo 'master setting up'
-    cd ~
-    git clone https://github.com/austineisele/kubeadm_scripts.git
     cd ~/kubeadm_scripts/Scripts/ubuntu
-    chmod +x all_nodes.sh
-    chmod +x master_node.sh
     ./all_nodes.sh
     SHELL
     master.vm.box = "bento/ubuntu-22.04"
@@ -30,11 +31,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "node0#{i}" do |node|
   config.vm.provision "shell", inline: <<-SHELL
     echo 'nodes setting up'
-    cd ~
-    git clone https://github.com/austineisele/kubeadm_scripts.git
-    cd ~/kubeadm_scripts/Scripts/ubuntu
-    chmod +x all_nodes.sh
-    chmod +x master_node.sh
     ./all_nodes.sh
   SHELL
     node.vm.box = "bento/ubuntu-22.04"
